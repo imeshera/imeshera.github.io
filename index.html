@@ -272,7 +272,7 @@
 		<div style="font-size: 18px; font-family: Lato, Arial; color: #059; margin-bottom: 10px;">
 			<b>Recent Workouts</b>
 		</div>
-		<div id="wahoo-activities" style="font-size: 9pt; padding-left:0rem">
+		<div id="wahoo-activities" class="workout-list" style="font-size: 9pt; padding-left:0rem">
 			<p style="color: #999; font-style: italic;">Loading activities...</p>
 		</div>
 	</div>
@@ -1245,30 +1245,58 @@ Awarded by the Unviersity of Maryland, A. James Clark School of Engineering for 
         };
     }
 
+    function workoutCard(workout) {
+        const item = renderWorkout(workout);
+        return `
+            <div style="margin-bottom: 0.3rem; padding-bottom: 0.2rem; border-bottom: 1px solid #eee;">
+                <div style="font-weight: bold; font-size: 8pt; margin-bottom: 0px;">${item.title}</div>
+                <div style="color: #666; font-size: 7pt; margin-bottom: 0px;">${item.timestamp}</div>
+                ${renderDetailRows(item.details)}
+            </div>
+        `;
+    }
+
     async function loadActivities() {
         const container = document.getElementById('wahoo-activities');
+        const pageSize = 5;
+        let shown = 0;
+        let allWorkouts = [];
+
+        function appendPage() {
+            const next = allWorkouts.slice(shown, shown + pageSize);
+            if (next.length === 0) return;
+            container.insertAdjacentHTML('beforeend', next.map(workoutCard).join(''));
+            shown += next.length;
+        }
+
+        function fillUntilScrollable() {
+            while (shown < allWorkouts.length && container.scrollHeight <= container.clientHeight + 8) {
+                appendPage();
+            }
+        }
+
         try {
             const response = await fetch('wahoo-activities.json');
             if (!response.ok) throw new Error('Failed to load activities');
 
             const data = await response.json();
-            const workouts = Array.isArray(data.workouts) ? data.workouts.slice(0, 5) : [];
+            allWorkouts = Array.isArray(data.workouts) ? data.workouts : [];
 
-            if (workouts.length === 0) {
+            if (allWorkouts.length === 0) {
                 container.innerHTML = '<p style="color: #d32f2f; font-size: 10pt;">No activities found.</p>';
                 return;
             }
 
-            container.innerHTML = workouts.map((workout) => {
-                const item = renderWorkout(workout);
-                return `
-                    <div style="margin-bottom: 0.3rem; padding-bottom: 0.2rem; border-bottom: 1px solid #eee;">
-                        <div style="font-weight: bold; font-size: 8pt; margin-bottom: 0px;">${item.title}</div>
-                        <div style="color: #666; font-size: 7pt; margin-bottom: 0px;">${item.timestamp}</div>
-                        ${renderDetailRows(item.details)}
-                    </div>
-                `;
-            }).join('');
+            container.innerHTML = '';
+            appendPage();
+            fillUntilScrollable();
+
+            container.addEventListener('scroll', () => {
+                if (shown >= allWorkouts.length) return;
+                if (container.scrollTop + container.clientHeight >= container.scrollHeight - 32) {
+                    appendPage();
+                }
+            });
         } catch (error) {
             console.error('Error loading activities:', error);
             container.innerHTML =

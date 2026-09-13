@@ -79,21 +79,40 @@ jobs:
           fi
 
           # Use the new access token immediately so Wahoo revokes the previous pair.
-          HTTP_CODE=$(curl -sS -o wahoo-activities-raw.json -w "%{http_code}" \
-            -H "Authorization: Bearer ${ACCESS_TOKEN}" \
-            -H "Accept: application/json" \
-            "https://api.wahooligan.com/v1/workouts?per_page=20")
+          PAGE=1
+          PAGE_FILES=""
+          while [ "$PAGE" -le 4 ]; do
+            PAGE_FILE="wahoo-activities-page-${PAGE}.json"
+            HTTP_CODE=$(curl -sS -o "$PAGE_FILE" -w "%{http_code}" \
+              -H "Authorization: Bearer ${ACCESS_TOKEN}" \
+              -H "Accept: application/json" \
+              "https://api.wahooligan.com/v1/workouts?per_page=100&page=${PAGE}")
 
-          if [ "$HTTP_CODE" != "200" ]; then
-            echo "Workouts request failed with HTTP ${HTTP_CODE}"
-            cat wahoo-activities-raw.json
-            rm -f wahoo-activities-raw.json
-            exit 1
-          fi
+            if [ "$HTTP_CODE" != "200" ]; then
+              echo "Workouts request failed with HTTP ${HTTP_CODE} on page ${PAGE}"
+              cat "$PAGE_FILE"
+              rm -f wahoo-activities-page-*.json
+              exit 1
+            fi
 
-          jq -e '.workouts | type == "array"' wahoo-activities-raw.json >/dev/null
-          jq '.' wahoo-activities-raw.json > wahoo-activities.json
-          rm -f wahoo-activities-raw.json
+            jq -e '.workouts | type == "array"' "$PAGE_FILE" >/dev/null
+            PAGE_FILES="${PAGE_FILES} ${PAGE_FILE}"
+            COUNT=$(jq '.workouts | length' "$PAGE_FILE")
+            if [ "$COUNT" -lt 100 ]; then
+              break
+            fi
+            PAGE=$((PAGE + 1))
+          done
+
+          jq -s '{
+            workouts: (map(.workouts) | add),
+            total: .[0].total,
+            page: 1,
+            per_page: (map(.workouts) | add | length),
+            order: .[0].order,
+            sort: .[0].sort
+          }' ${PAGE_FILES} > wahoo-activities.json
+          rm -f wahoo-activities-page-*.json
 
           if [ -n "$NEW_REFRESH_TOKEN" ]; then
             printf '%s' "$NEW_REFRESH_TOKEN" | encrypt_token > wahoo-token.enc

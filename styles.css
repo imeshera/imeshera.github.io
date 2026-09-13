@@ -3022,6 +3022,23 @@ body.dark-mode {
     z-index: 100;
 }
 
+.workout-list {
+    max-height: 270px;
+    overflow-y: auto;
+    padding-right: 2px;
+    scrollbar-width: thin;
+    scrollbar-color: #c5c5c5 transparent;
+}
+
+.workout-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.workout-list::-webkit-scrollbar-thumb {
+    background: #c5c5c5;
+    border-radius: 4px;
+}
+
 /* Ensure intro section can accommodate sidebar */
 .intro {
     position: relative;
@@ -3047,6 +3064,14 @@ body.dark-mode .workout-sidebar div {
 
 body.dark-mode .workout-sidebar div[style*="border-bottom"] {
     border-bottom-color: #404040 !important;
+}
+
+body.dark-mode .workout-list {
+    scrollbar-color: #666 transparent;
+}
+
+body.dark-mode .workout-list::-webkit-scrollbar-thumb {
+    background: #666;
 }
 
 /* Hide sidebar on smaller screens where there's no space */
@@ -3084,6 +3109,10 @@ body.dark-mode .workout-sidebar div[style*="border-bottom"] {
     
     .workout-sidebar {
         order: 3; /* This will push workouts to the very bottom */
+    }
+
+    .workout-list {
+        max-height: 270px;
     }
 }
 
