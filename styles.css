@@ -3012,6 +3012,9 @@ body.dark-mode {
     top: 0;
     right: -240px; /* Position it to the right of the intro section */
     width: 220px; /* Reduced from 280px */
+    height: 330px;
+    display: flex;
+    flex-direction: column;
     background-color: #f8f9fa;
     border: 1px solid #e9ecef;
     border-radius: 8px;
@@ -3021,25 +3024,44 @@ body.dark-mode {
     z-index: 100;
 }
 
-#wahoo-activities.workout-list {
+.workout-sidebar-header {
+    flex: 0 0 auto;
+    font-size: 18px;
+    font-family: Lato, Arial, sans-serif;
+    font-weight: 700;
+    color: #059;
+    margin-bottom: 8px;
+}
+
+#wahoo-activities.workout-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
     height: 270px;
-    max-height: 270px;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: scroll;
     font-size: 9pt;
-    padding-left: 0;
-    padding-right: 2px;
+    padding-right: 4px;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    background: #fff;
     overscroll-behavior: contain;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-gutter: stable;
     scrollbar-width: thin;
-    scrollbar-color: #c5c5c5 transparent;
+    scrollbar-color: #8a8a8a #efefef;
 }
 
-.workout-list::-webkit-scrollbar {
-    width: 6px;
+#wahoo-activities.workout-scroll::-webkit-scrollbar {
+    width: 8px;
 }
 
-.workout-list::-webkit-scrollbar-thumb {
-    background: #c5c5c5;
+#wahoo-activities.workout-scroll::-webkit-scrollbar-track {
+    background: #efefef;
+}
+
+#wahoo-activities.workout-scroll::-webkit-scrollbar-thumb {
+    background: #8a8a8a;
     border-radius: 4px;
 }
 
@@ -3070,12 +3092,18 @@ body.dark-mode .workout-sidebar div[style*="border-bottom"] {
     border-bottom-color: #404040 !important;
 }
 
-body.dark-mode .workout-list {
-    scrollbar-color: #666 transparent;
+body.dark-mode #wahoo-activities.workout-scroll {
+    background: #1f1f1f;
+    border-color: #404040;
+    scrollbar-color: #888 #2d2d2d;
 }
 
-body.dark-mode .workout-list::-webkit-scrollbar-thumb {
-    background: #666;
+body.dark-mode #wahoo-activities.workout-scroll::-webkit-scrollbar-track {
+    background: #2d2d2d;
+}
+
+body.dark-mode #wahoo-activities.workout-scroll::-webkit-scrollbar-thumb {
+    background: #888;
 }
 
 /* Hide sidebar on smaller screens where there's no space */
@@ -3115,9 +3143,12 @@ body.dark-mode .workout-list::-webkit-scrollbar-thumb {
         order: 3; /* This will push workouts to the very bottom */
     }
 
-    #wahoo-activities.workout-list {
+    .workout-sidebar {
+        height: 330px;
+    }
+
+    #wahoo-activities.workout-scroll {
         height: 270px;
-        max-height: 270px;
     }
 }
 

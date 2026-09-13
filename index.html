@@ -38,7 +38,7 @@
   <meta name="twitter:image" content="https://imeshera.github.io/images/prof_pic.png">
  
   <!-- CSS -->
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=workout-scroll-3">
   <link href="../use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
@@ -269,10 +269,8 @@
 
 	<!-- Workout Sidebar - Inside intro section for desktop -->
 	<div class="workout-sidebar">
-		<div style="font-size: 18px; font-family: Lato, Arial; color: #059; margin-bottom: 10px;">
-			<b>Recent Workouts</b>
-		</div>
-		<div id="wahoo-activities" class="workout-list">
+		<div class="workout-sidebar-header">Recent Workouts</div>
+		<div id="wahoo-activities" class="workout-scroll" tabindex="0">
 			<p style="color: #999; font-style: italic;">Loading activities...</p>
 		</div>
 	</div>
@@ -1285,12 +1283,20 @@ Awarded by the Unviersity of Maryland, A. James Clark School of Engineering for 
             container.innerHTML = '';
             appendPage();
 
-            container.addEventListener('scroll', () => {
+            function maybeLoadMore() {
                 if (shown >= allWorkouts.length) return;
-                if (container.scrollTop + container.clientHeight >= container.scrollHeight - 32) {
+                if (container.scrollTop + container.clientHeight >= container.scrollHeight - 40) {
                     appendPage();
                 }
-            });
+            }
+
+            container.addEventListener('scroll', maybeLoadMore);
+            container.addEventListener('wheel', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                container.scrollTop += event.deltaY;
+                maybeLoadMore();
+            }, { passive: false });
         } catch (error) {
             console.error('Error loading activities:', error);
             container.innerHTML =
