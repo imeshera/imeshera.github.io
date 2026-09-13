@@ -1219,7 +1219,9 @@ Awarded by the Unviersity of Maryland, A. James Clark School of Engineering for 
         if (summary) {
             const distance = parseFloat(summary.distance_accum || 0);
             const duration = parseFloat(summary.duration_total_accum || workout.minutes * 60 || 0);
-            const title = customName || (distance > 0 ? `${formatDistance(distance)} Mile ${type}` : type);
+            const title = distance > 0
+                ? `${formatDistance(distance)} Mile ${type}`
+                : (customName || type);
             let durationStr = formatDuration(duration);
             if (['Run', 'Trail Run', 'Track Run', 'Walk', 'Hike'].includes(type)) {
                 const pace = formatPace(distance, duration);
