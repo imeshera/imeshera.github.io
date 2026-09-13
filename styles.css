@@ -3017,15 +3017,19 @@ body.dark-mode {
     border-radius: 8px;
     padding: 10px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    max-height: none;
-    overflow: visible;
+    overflow: hidden;
     z-index: 100;
 }
 
-.workout-list {
+#wahoo-activities.workout-list {
+    height: 270px;
     max-height: 270px;
+    overflow-x: hidden;
     overflow-y: auto;
+    font-size: 9pt;
+    padding-left: 0;
     padding-right: 2px;
+    overscroll-behavior: contain;
     scrollbar-width: thin;
     scrollbar-color: #c5c5c5 transparent;
 }
@@ -3111,7 +3115,8 @@ body.dark-mode .workout-list::-webkit-scrollbar-thumb {
         order: 3; /* This will push workouts to the very bottom */
     }
 
-    .workout-list {
+    #wahoo-activities.workout-list {
+        height: 270px;
         max-height: 270px;
     }
 }

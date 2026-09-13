@@ -272,7 +272,7 @@
 		<div style="font-size: 18px; font-family: Lato, Arial; color: #059; margin-bottom: 10px;">
 			<b>Recent Workouts</b>
 		</div>
-		<div id="wahoo-activities" class="workout-list" style="font-size: 9pt; padding-left:0rem">
+		<div id="wahoo-activities" class="workout-list">
 			<p style="color: #999; font-style: italic;">Loading activities...</p>
 		</div>
 	</div>
@@ -1263,16 +1263,11 @@ Awarded by the Unviersity of Maryland, A. James Clark School of Engineering for 
         let allWorkouts = [];
 
         function appendPage() {
-            const next = allWorkouts.slice(shown, shown + pageSize);
+            const size = shown === 0 ? pageSize + 1 : pageSize;
+            const next = allWorkouts.slice(shown, shown + size);
             if (next.length === 0) return;
             container.insertAdjacentHTML('beforeend', next.map(workoutCard).join(''));
             shown += next.length;
-        }
-
-        function fillUntilScrollable() {
-            while (shown < allWorkouts.length && container.scrollHeight <= container.clientHeight + 8) {
-                appendPage();
-            }
         }
 
         try {
@@ -1289,7 +1284,6 @@ Awarded by the Unviersity of Maryland, A. James Clark School of Engineering for 
 
             container.innerHTML = '';
             appendPage();
-            fillUntilScrollable();
 
             container.addEventListener('scroll', () => {
                 if (shown >= allWorkouts.length) return;
