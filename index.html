@@ -11,18 +11,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- SEO Meta Tags -->
-  <title>Ibrahim M. Eshera | PhD | Robotics & Machine Learning Researcher</title>
-  <meta name="description" content="Ibrahim M. Eshera is a PhD in Electrical Engineering from Virginia Tech, specializing in robotics, machine learning, bioacoustics, and signal processing. Research focuses on bat-inspired robotics and acoustic sensing.">
-  <meta name="keywords" content="Ibrahim Eshera, Ibrahim M. Eshera, PhD, Virginia Tech, robotics, machine learning, bioacoustics, signal processing, bat robotics, acoustic sensing, electrical engineering, research">
+  <title>Ibrahim M. Eshera | PhD, Virginia Tech | Robotics & Machine Learning</title>
+  <meta name="description" content="Official homepage of Ibrahim M. Eshera, PhD in Electrical Engineering from Virginia Tech. Research in robotics, machine learning, bioacoustics, and bat-inspired acoustic sensing.">
   <meta name="author" content="Ibrahim M. Eshera">
   <meta name="robots" content="index, follow">
-  <meta name="googlebot" content="index, follow">
   <link rel="canonical" href="https://imeshera.github.io/">
+  <link rel="sitemap" type="application/xml" href="https://imeshera.github.io/sitemap.xml">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Ibrahim M. Eshera | PhD | Robotics & Machine Learning Researcher">
-  <meta property="og:description" content="PhD in Electrical Engineering from Virginia Tech, specializing in robotics, machine learning, bioacoustics, and signal processing. Research focuses on bat-inspired robotics and acoustic sensing.">
+  <meta property="og:title" content="Ibrahim M. Eshera | PhD, Virginia Tech | Robotics & Machine Learning">
+  <meta property="og:description" content="Official homepage of Ibrahim M. Eshera, PhD in Electrical Engineering from Virginia Tech. Research in robotics, machine learning, bioacoustics, and bat-inspired acoustic sensing.">
   <meta property="og:url" content="https://imeshera.github.io/">
   <meta property="og:image" content="https://imeshera.github.io/images/prof_pic.png">
   <meta property="og:image:width" content="1200">
@@ -33,8 +32,8 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@ibrahimmeshera">
   <meta name="twitter:creator" content="@ibrahimmeshera">
-  <meta name="twitter:title" content="Ibrahim M. Eshera | PhD | Robotics & Machine Learning Researcher">
-  <meta name="twitter:description" content="PhD in Electrical Engineering from Virginia Tech, specializing in robotics, machine learning, bioacoustics, and signal processing.">
+  <meta name="twitter:title" content="Ibrahim M. Eshera | PhD, Virginia Tech | Robotics & Machine Learning">
+  <meta name="twitter:description" content="Official homepage of Ibrahim M. Eshera, PhD in Electrical Engineering from Virginia Tech.">
   <meta name="twitter:image" content="https://imeshera.github.io/images/prof_pic.png">
  
   <!-- CSS -->
@@ -59,60 +58,75 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Ibrahim M. Eshera",
-  "alternateName": "Ibrahim Eshera",
-  "url": "https://imeshera.github.io/",
-  "image": "https://imeshera.github.io/images/prof_pic.png",
-   "description": "PhD in Electrical Engineering from Virginia Tech, specializing in robotics, machine learning, bioacoustics, and signal processing",
-   "jobTitle": "PhD",
-  "worksFor": {
-    "@type": "Organization",
-    "name": "Virginia Tech",
-    "url": "https://www.vt.edu"
-  },
-  "affiliation": {
-    "@type": "Organization",
-    "name": "Virginia Tech",
-    "department": "Electrical & Computer Engineering",
-    "url": "https://www.ece.vt.edu"
-  },
-  "alumniOf": [
+  "@graph": [
     {
-      "@type": "Organization",
-      "name": "University of Maryland",
-      "url": "https://www.umd.edu"
+      "@type": "WebSite",
+      "@id": "https://imeshera.github.io/#website",
+      "url": "https://imeshera.github.io/",
+      "name": "Ibrahim M. Eshera",
+      "description": "Official homepage of Ibrahim M. Eshera",
+      "inLanguage": "en",
+      "publisher": { "@id": "https://imeshera.github.io/#person" }
     },
     {
-      "@type": "Organization", 
-      "name": "Virginia Tech",
-      "url": "https://www.vt.edu"
+      "@type": "ProfilePage",
+      "@id": "https://imeshera.github.io/#profile",
+      "url": "https://imeshera.github.io/",
+      "name": "Ibrahim M. Eshera | PhD, Virginia Tech",
+      "isPartOf": { "@id": "https://imeshera.github.io/#website" },
+      "mainEntity": { "@id": "https://imeshera.github.io/#person" },
+      "about": { "@id": "https://imeshera.github.io/#person" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://imeshera.github.io/#person",
+      "name": "Ibrahim M. Eshera",
+      "alternateName": ["Ibrahim Eshera", "Ibrahim Mohamed Eshera"],
+      "givenName": "Ibrahim",
+      "additionalName": "M.",
+      "familyName": "Eshera",
+      "honorificSuffix": "PhD",
+      "url": "https://imeshera.github.io/",
+      "image": "https://imeshera.github.io/images/prof_pic.png",
+      "description": "PhD in Electrical Engineering from Virginia Tech, specializing in robotics, machine learning, bioacoustics, and signal processing",
+      "jobTitle": "Electrical Engineer",
+      "email": "ieshera@vt.edu",
+      "alumniOf": [
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "Virginia Tech",
+          "url": "https://www.vt.edu"
+        },
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "University of Maryland",
+          "url": "https://www.umd.edu"
+        }
+      ],
+      "affiliation": {
+        "@type": "CollegeOrUniversity",
+        "name": "Virginia Tech",
+        "url": "https://www.ece.vt.edu"
+      },
+      "knowsAbout": [
+        "Robotics",
+        "Machine Learning",
+        "Bioacoustics",
+        "Signal Processing",
+        "Electrical Engineering",
+        "Bat-inspired robotics",
+        "Acoustic sensing"
+      ],
+      "sameAs": [
+        "https://www.linkedin.com/in/ieshera/",
+        "https://scholar.google.com/citations?user=OxSRrnsAAAAJ&hl=en",
+        "https://github.com/imeshera",
+        "https://twitter.com/ibrahimmeshera",
+        "https://www.instagram.com/ibrahim.eshera/",
+        "https://hdl.handle.net/10919/139857"
+      ]
     }
-  ],
-  "knowsAbout": [
-    "Robotics",
-    "Machine Learning", 
-    "Bioacoustics",
-    "Signal Processing",
-    "Electrical Engineering",
-    "Bat Robotics",
-    "Acoustic Sensing",
-    "Digital Signal Processing"
-  ],
-  "sameAs": [
-    "https://www.linkedin.com/in/ieshera/",
-    "https://scholar.google.com/citations?user=OxSRrnsAAAAJ&hl=en",
-    "https://github.com/imeshera",
-    "https://twitter.com/ibrahimmeshera",
-    "https://www.instagram.com/ibrahim.eshera/"
-  ],
-  "email": "ieshera@vt.edu",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Blacksburg",
-    "addressRegion": "VA",
-    "addressCountry": "US"
-  }
+  ]
 }
 </script>
 
@@ -142,7 +156,7 @@
 
       <main>
         <article id="cv" class="page">
-          <div style="font-size: 40px; font-family: Lato, Arial" class="intro-title"><b>Ibrahim M. Eshera</b></div>
+          <h1 style="font-size: 40px; font-family: Lato, Arial; margin: 0;" class="intro-title">Ibrahim M. Eshera</h1>
 <hr style="margin-left: 0; margin-top:0" />
 
 <div class="intro">
@@ -628,211 +642,6 @@ Reza Ghandi
 
 
 </p>
-
-
-<div style="padding-top: 50px;font-size: 25px; font-family: Lato, Arial; color: #059;" class="intro-title"><b>Highlighted Projects</b></div>
-<hr style="margin-left: 0; margin-top:0" />
-
-<div class="cover-wrapper">
-
-
-<div class="cover">
-
-	<div class="cover-image">
-		<a href="papers/malnet-graph.html" style="color:#0077CC">
-			<img src="images/featured/malnet-graph-crop.png" />
-		</a>
-	</div>
-
-	<div class="cover-inner">
-
-		<div class="cover-top">
-
-			<div class="cover-title">
-				<a href="papers/malnet-graph.html" target="_blank">Large-Scale Database for Graph Representation Learning</a>
-			</div>
-
-			<div class="cover-subtitle">Largest graph classification dataset to date</div>
-
-			<div class="cover-venue">
-				
-				NeurIPS
-				
-				2021
-			</div>
-
-		</div>
-
-		<div class="cover-footer-wrapper">
-			<div class="cover-links">
-
-				<span class="pub-misc">
-					
-					<a href="papers/malnet-graph.html">
-						<i class="fas fa-link" aria-hidden="true"></i> Project
-					</a>
-
-					<a href="https://mal-net.org/">
-						<i class="fas fa-play" aria-hidden="true"></i> Demo
-					</a>
-	
-					<a href="https://arxiv.org/pdf/2011.07682.pdf">
-						<i class="fas fa-file-pdf" aria-hidden="true"></i> PDF
-					</a>
-	
-					<a href="https://scottfreitas.medium.com/a-large-scale-database-for-graph-representation-learning-c096ab19aa4d">
-						<i class="fas fa-newspaper" aria-hidden="true"></i> Blog
-					</a>
-
-					<a href="https://github.com/safreita1/malnet-graph">
-						<i class="fas fa-code" aria-hidden="true"></i> Code
-					</a>
-
-				</span>
-
-			</div>
-
-<!--         <div class="cover-year">
-        	NeurIPS
-        	<br>
-            2021
-        </div> -->
-        
-	    </div>
-
-	</div>
-</div>
-
-
-<div class="cover">
-
-	<div class="cover-image">
-		<a href="papers/unmask.html">
-			<img src="images/featured/unmask.png" />
-		</a>
-	</div>
-
-	<div class="cover-inner">
-
-		<div class="cover-top">
-
-			<div class="cover-title">
-				<a href="papers/unmask.html" target="_blank">UnMask: Adversarial Detection &amp; Defense Via Robust Feature Alignment</a>
-			</div>
-
-			<div class="cover-subtitle">Protecting deep learning models.</div>
-
-			<div class="cover-venue">
-				
-				Big Data
-				
-				2020
-			</div>
-
-		</div>
-
-		<div class="cover-footer-wrapper">
-			<div class="cover-links">
-
-				<span class="pub-misc">
-			
-					<a href="papers/unmask.html">
-						<i class="fas fa-link" aria-hidden="true"></i> Project
-					</a>
-			
-					<a href="https://arxiv.org/pdf/2002.09576.pdf">
-						<i class="fas fa-file-pdf" aria-hidden="true"></i> PDF
-					</a>
-
-					<a href="https://scottfreitas.medium.com/protecting-deep-learning-systems-from-adversarial-attacks-a580e566382">
-						<i class="fas fa-newspaper" aria-hidden="true"></i> Blog
-					</a>
-					
-					<a href="https://www.youtube.com/watch?v=1c99eLYysH0">
-						<i class="fas fa-film" aria-hidden="true"></i> Video
-					</a>
-
-					<a href="https://github.com/safreita1/unmask">
-						<i class="fas fa-code" aria-hidden="true"></i> Code
-					</a>
-	
-				</span>
-
-			</div>
-
-<!--         <div class="cover-year">
-        	Big Data
-        	<br>
-            2020
-        </div> -->
-        
-	    </div>
-
-	</div>
-</div>
-
-
-<div class="cover">
-
-	<div class="cover-image">
-		<a href="papers/d2m.html">
-			<img src="images/featured/d2m-crop.jpg" />
-		</a>
-	</div>
-
-	<div class="cover-inner">
-
-		<div class="cover-top">
-
-			<div class="cover-title">
-				<a href="papers/d2m.html" target="_blank">D<sup>2</sup>M: Dynamic Defense &amp; Modeling of Adversarial Movement in Networks</a>
-			</div>
-
-			<div class="cover-subtitle">Modeling and quantifying vulnerability to network lateral attacks.</div>
-
-			<div class="cover-venue">
-				
-				SDM
-				
-				2020
-			</div>
-
-		</div>
-
-		<div class="cover-footer-wrapper">
-			<div class="cover-links">
-
-				<span class="pub-misc">
-				
-					<a href="papers/d2m.html">
-						<i class="fas fa-link" aria-hidden="true"></i> Project
-					</a>
-
-					<a href="https://arxiv.org/pdf/2001.11108.pdf">
-						<i class="fas fa-file-pdf" aria-hidden="true"></i> PDF
-					</a>
-	
-					<a href="https://scottfreitas.medium.com/how-to-defend-enterprise-networks-against-lateral-attacks-d2aef1b49b4a">
-						<i class="fas fa-newspaper" aria-hidden="true"></i> Blog
-					</a>
-					
-				</span>
-
-			</div>
-
-<!--         <div class="cover-year">
-        	SDM
-        	<br>
-            2020
-        </div> -->
-        
-	    </div>
-
-	</div>
-</div>
-
-
-</div>
 
 
  <div style="padding-top: 30px;font-size: 25px; font-family: Lato, Arial; color: #059;" class="intro-title"><b>Education</b></div>
