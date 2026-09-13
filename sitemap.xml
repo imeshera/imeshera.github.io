@@ -7,70 +7,70 @@
 <!-- Ibrahim M. Eshera Personal Website Sitemap -->
 
 <url>
-  <loc>https://imeshera.github.io/home/</loc>
+  <loc>https://imeshera.github.io/</loc>
   <lastmod>2025-01-15T00:00:00+00:00</lastmod>
   <changefreq>weekly</changefreq>
   <priority>1.00</priority>
 </url>
 
 <url>
-  <loc>https://imeshera.github.io/home/index.html</loc>
+  <loc>https://imeshera.github.io/index.html</loc>
   <lastmod>2025-01-15T00:00:00+00:00</lastmod>
   <changefreq>weekly</changefreq>
   <priority>0.90</priority>
 </url>
 
 <url>
-  <loc>https://imeshera.github.io/home/blog/index.html</loc>
+  <loc>https://imeshera.github.io/blog/index.html</loc>
   <lastmod>2025-01-15T00:00:00+00:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.80</priority>
 </url>
 
 <url>
-  <loc>https://imeshera.github.io/home/blog/drone-photography.html</loc>
+  <loc>https://imeshera.github.io/blog/drone-photography.html</loc>
   <lastmod>2025-01-15T00:00:00+00:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.70</priority>
 </url>
 
 <url>
-  <loc>https://imeshera.github.io/home/blog/bats.html</loc>
+  <loc>https://imeshera.github.io/blog/bats.html</loc>
   <lastmod>2025-01-15T00:00:00+00:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.70</priority>
 </url>
 
 <url>
-  <loc>https://imeshera.github.io/home/blog/ev-ice.html</loc>
+  <loc>https://imeshera.github.io/blog/ev-ice.html</loc>
   <lastmod>2025-01-15T00:00:00+00:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.70</priority>
 </url>
 
 <url>
-  <loc>https://imeshera.github.io/home/blog/airport-refueling.html</loc>
+  <loc>https://imeshera.github.io/blog/airport-refueling.html</loc>
   <lastmod>2025-01-15T00:00:00+00:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.70</priority>
 </url>
 
 <url>
-  <loc>https://imeshera.github.io/home/blog/car-log.html</loc>
+  <loc>https://imeshera.github.io/blog/car-log.html</loc>
   <lastmod>2025-01-15T00:00:00+00:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.70</priority>
 </url>
 
 <url>
-  <loc>https://imeshera.github.io/home/blog/flying-log.html</loc>
+  <loc>https://imeshera.github.io/blog/flying-log.html</loc>
   <lastmod>2025-01-15T00:00:00+00:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.70</priority>
 </url>
 
 <url>
-  <loc>https://imeshera.github.io/home/cv/index.html</loc>
+  <loc>https://imeshera.github.io/cv/index.html</loc>
   <lastmod>2025-01-15T00:00:00+00:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.60</priority>

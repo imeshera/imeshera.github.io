@@ -17,14 +17,14 @@
   <meta name="author" content="Ibrahim M. Eshera">
   <meta name="robots" content="index, follow">
   <meta name="googlebot" content="index, follow">
-  <link rel="canonical" href="https://imeshera.github.io/home/">
+  <link rel="canonical" href="https://imeshera.github.io/">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Ibrahim M. Eshera | PhD | Robotics & Machine Learning Researcher">
   <meta property="og:description" content="PhD in Electrical Engineering from Virginia Tech, specializing in robotics, machine learning, bioacoustics, and signal processing. Research focuses on bat-inspired robotics and acoustic sensing.">
-  <meta property="og:url" content="https://imeshera.github.io/home/">
-  <meta property="og:image" content="https://imeshera.github.io/home/images/prof_pic.png">
+  <meta property="og:url" content="https://imeshera.github.io/">
+  <meta property="og:image" content="https://imeshera.github.io/images/prof_pic.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Ibrahim M. Eshera">
@@ -35,7 +35,7 @@
   <meta name="twitter:creator" content="@ibrahimmeshera">
   <meta name="twitter:title" content="Ibrahim M. Eshera | PhD | Robotics & Machine Learning Researcher">
   <meta name="twitter:description" content="PhD in Electrical Engineering from Virginia Tech, specializing in robotics, machine learning, bioacoustics, and signal processing.">
-  <meta name="twitter:image" content="https://imeshera.github.io/home/images/prof_pic.png">
+  <meta name="twitter:image" content="https://imeshera.github.io/images/prof_pic.png">
  
   <!-- CSS -->
   <link rel="stylesheet" href="styles.css">
@@ -62,8 +62,8 @@
   "@type": "Person",
   "name": "Ibrahim M. Eshera",
   "alternateName": "Ibrahim Eshera",
-  "url": "https://imeshera.github.io/home/",
-  "image": "https://imeshera.github.io/home/images/prof_pic.png",
+  "url": "https://imeshera.github.io/",
+  "image": "https://imeshera.github.io/images/prof_pic.png",
    "description": "PhD in Electrical Engineering from Virginia Tech, specializing in robotics, machine learning, bioacoustics, and signal processing",
    "jobTitle": "PhD",
   "worksFor": {
@@ -1147,162 +1147,133 @@ Awarded by the Unviersity of Maryland, A. James Clark School of Engineering for 
 <br />
 
 <script>
-    // Helper function to format distance
     function formatDistance(meters) {
-        const miles = (meters / 1609.34).toFixed(2);
-        return miles;
+        return (meters / 1609.34).toFixed(2);
     }
-    
-    // Helper function to format pace (min/mile)
+
     function formatPace(meters, seconds) {
-        if (meters === 0) return null;
+        if (!meters || !seconds) return null;
         const miles = meters / 1609.34;
-        const minutes = seconds / 60;
-        const paceMinPerMile = minutes / miles;
+        const paceMinPerMile = (seconds / 60) / miles;
+        if (!isFinite(paceMinPerMile) || paceMinPerMile < 4 || paceMinPerMile > 25) return null;
         const paceMin = Math.floor(paceMinPerMile);
         const paceSec = Math.round((paceMinPerMile - paceMin) * 60);
         return `${paceMin}:${paceSec.toString().padStart(2, '0')}`;
     }
-    
-    // Helper function to format duration
+
     function formatDuration(seconds) {
-        const hours = Math.floor(seconds / 3600);
-        const minutes = Math.floor((seconds % 3600) / 60);
-        const secs = Math.round(seconds % 60);
-        
+        const total = Math.max(0, Math.round(seconds || 0));
+        const hours = Math.floor(total / 3600);
+        const minutes = Math.floor((total % 3600) / 60);
+        const secs = total % 60;
         if (hours > 0) {
             return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-        } else {
-            return `${minutes}:${secs.toString().padStart(2, '0')}`;
         }
+        return `${minutes}:${secs.toString().padStart(2, '0')}`;
     }
-    
-    // Helper function to get relative time
+
     function getRelativeTime(dateString) {
         const activityDate = new Date(dateString);
-        const now = new Date();
-        const diffMs = now - activityDate;
-        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-        
+        if (Number.isNaN(activityDate.getTime())) return '';
+        const diffDays = Math.floor((Date.now() - activityDate.getTime()) / 86400000);
+        if (diffDays < 0) return 'just now';
         if (diffDays === 0) return 'today';
         if (diffDays === 1) return 'a day ago';
-        return `${diffDays} days ago`;
+        if (diffDays < 14) return `${diffDays} days ago`;
+        if (diffDays < 60) return `${Math.floor(diffDays / 7)} weeks ago`;
+        if (diffDays < 730) return `${Math.floor(diffDays / 30)} months ago`;
+        return `${Math.floor(diffDays / 365)} years ago`;
     }
-    
-    // Helper function to format workout type
+
     function getWorkoutTypeName(typeId) {
         const types = {
-            0: 'Ride', 1: 'Run', 5: 'Run', 6: 'Walk', 12: 'Ride', 
-            13: 'Ride', 15: 'Ride', 25: 'Swim', 42: 'Workout',
-            49: 'Ride', 61: 'Ride', 66: 'Yoga', 68: 'Ride'
+            0: 'Ride', 1: 'Run', 3: 'Track Run', 4: 'Trail Run', 5: 'Treadmill',
+            6: 'Walk', 7: 'Walk', 8: 'Nordic Walk', 9: 'Hike', 10: 'Mountaineering',
+            11: 'CX Ride', 12: 'Indoor Ride', 13: 'MTB', 15: 'Road Ride',
+            19: 'Treadmill', 20: 'Elliptical', 21: 'Indoor Ride', 22: 'Row',
+            23: 'Climber', 25: 'Swim', 26: 'Open Water', 27: 'Snowboard',
+            28: 'Ski', 39: 'Row', 42: 'Workout', 43: 'Cardio', 44: 'Stairs',
+            47: 'Other', 49: 'Spin', 56: 'Treadmill Walk', 61: 'Trainer',
+            64: 'E-Bike', 66: 'Yoga', 67: 'Race', 68: 'Virtual Ride', 71: 'Virtual Run'
         };
         return types[typeId] || 'Workout';
     }
-    
-    // Fetch and display activities
+
+    function renderDetailRows(details) {
+        const rows = [];
+        for (let i = 0; i < details.length; i += 3) {
+            rows.push(details.slice(i, i + 3));
+        }
+        return rows.map((row) =>
+            `<div style="color: #888; font-size: 7pt;">${row.join(' • ')}</div>`
+        ).join('');
+    }
+
+    function renderWorkout(workout) {
+        const summary = workout.workout_summary;
+        const type = getWorkoutTypeName(workout.workout_type_id);
+        const timestamp = getRelativeTime(workout.starts || workout.created_at);
+        const customName = workout.name && workout.name !== 'Workout' ? workout.name : null;
+        const details = [];
+
+        if (summary) {
+            const distance = parseFloat(summary.distance_accum || 0);
+            const duration = parseFloat(summary.duration_total_accum || workout.minutes * 60 || 0);
+            const title = customName || (distance > 0 ? `${formatDistance(distance)} Mile ${type}` : type);
+            let durationStr = formatDuration(duration);
+            if (['Run', 'Trail Run', 'Track Run', 'Walk', 'Hike'].includes(type)) {
+                const pace = formatPace(distance, duration);
+                if (pace) durationStr += ` at ${pace} pace`;
+            }
+            details.push(durationStr);
+            if (summary.calories_accum) details.push(`${Math.round(parseFloat(summary.calories_accum))} cal`);
+            if (summary.heart_rate_avg) details.push(`${Math.round(parseFloat(summary.heart_rate_avg))} bpm avg`);
+            if (summary.power_avg) details.push(`${Math.round(parseFloat(summary.power_avg))}W avg`);
+            if (summary.ascent_accum && parseFloat(summary.ascent_accum) > 0) {
+                details.push(`${(parseFloat(summary.ascent_accum) * 3.28084).toFixed(0)} ft gain`);
+            }
+            return { title, timestamp, details };
+        }
+
+        const minutes = parseFloat(workout.minutes || 0);
+        return {
+            title: customName || type,
+            timestamp,
+            details: minutes ? [formatDuration(minutes * 60)] : []
+        };
+    }
+
     async function loadActivities() {
+        const container = document.getElementById('wahoo-activities');
         try {
             const response = await fetch('wahoo-activities.json');
             if (!response.ok) throw new Error('Failed to load activities');
-            
+
             const data = await response.json();
-            const workouts = data.workouts || [];
-            const container = document.getElementById('wahoo-activities');
-            
+            const workouts = Array.isArray(data.workouts) ? data.workouts.slice(0, 5) : [];
+
             if (workouts.length === 0) {
                 container.innerHTML = '<p style="color: #d32f2f; font-size: 10pt;">No activities found.</p>';
                 return;
             }
-            
-            let html = '';
-            
-            // Only show workouts that have been completed (have a workout_summary)
-            const completedWorkouts = workouts.filter(w => w.workout_summary).slice(0, 5);
-            
-            completedWorkouts.forEach(workout => {
-                const summary = workout.workout_summary;
-                if (!summary) return;
-                
-                const distance = parseFloat(summary.distance_accum || 0);
-                const duration = parseFloat(summary.duration_total_accum || 0);
-                const type = getWorkoutTypeName(workout.workout_type_id);
-                const timestamp = getRelativeTime(workout.starts || workout.created_at);
-                
-                // Build title line
-                let title = `${formatDistance(distance)} Mile ${type}`;
-                if (distance === 0) {
-                    title = `0 Mile ${type}`;
-                }
-                
-                // Build details array
-                let details = [];
-                
-                // Duration and pace
-                let durationStr = formatDuration(duration);
-                if (distance > 0 && (type === 'Run' || type === 'Walk' || type === 'Ride')) {
-                    const pace = formatPace(distance, duration);
-                    durationStr += ` at ${pace} pace`;
-                } else if (distance === 0) {
-                    durationStr += ' minutes';
-                }
-                details.push(durationStr);
-                
-                // Calories - THIS IS THE KEY DIFFERENCE FROM STRAVA!
-                if (summary.calories_accum) {
-                    const calories = Math.round(parseFloat(summary.calories_accum));
-                    details.push(`${calories} cal`);
-                }
-                
-                // Average Heart Rate
-                if (summary.heart_rate_avg) {
-                    details.push(`${Math.round(parseFloat(summary.heart_rate_avg))} bpm avg`);
-                }
-                
-                // Average Watts (for cycling)
-                if (summary.power_avg) {
-                    details.push(`${Math.round(parseFloat(summary.power_avg))}W avg`);
-                }
-                
-                // Elevation Gain
-                if (summary.ascent_accum && parseFloat(summary.ascent_accum) > 0) {
-                    const elevationFeet = (parseFloat(summary.ascent_accum) * 3.28084).toFixed(0);
-                    details.push(`${elevationFeet} ft gain`);
-                }
-                
-                // Split details into rows of max 3 items
-                let detailsRows = [];
-                for (let i = 0; i < details.length; i += 3) {
-                    detailsRows.push(details.slice(i, i + 3));
-                }
-                
-                // Create HTML for multiple rows
-                let detailsHtml = detailsRows.map(row => 
-                    `<div style="color: #888; font-size: 7pt;">${row.join(' • ')}</div>`
-                ).join('');
-                
-                html += `
+
+            container.innerHTML = workouts.map((workout) => {
+                const item = renderWorkout(workout);
+                return `
                     <div style="margin-bottom: 0.3rem; padding-bottom: 0.2rem; border-bottom: 1px solid #eee;">
-                        <div style="font-weight: bold; font-size: 8pt; margin-bottom: 0px;">${title}</div>
-                        <div style="color: #666; font-size: 7pt; margin-bottom: 0px;">${timestamp}</div>
-                        ${detailsHtml}
+                        <div style="font-weight: bold; font-size: 8pt; margin-bottom: 0px;">${item.title}</div>
+                        <div style="color: #666; font-size: 7pt; margin-bottom: 0px;">${item.timestamp}</div>
+                        ${renderDetailRows(item.details)}
                     </div>
                 `;
-            });
-            
-            if (html === '') {
-                container.innerHTML = '<p style="color: #999; font-size: 10pt;">No completed workouts found.</p>';
-            } else {
-                container.innerHTML = html;
-            }
-            
+            }).join('');
         } catch (error) {
             console.error('Error loading activities:', error);
-            document.getElementById('wahoo-activities').innerHTML = 
+            container.innerHTML =
                 '<p style="color: #d32f2f; font-size: 10pt;">Unable to load activities. Please try again later.</p>';
         }
     }
-    
-    // Load activities when page loads
+
     loadActivities();
 </script>
 

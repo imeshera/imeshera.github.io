@@ -92,6 +92,7 @@
                 <li>Copy the authorization code from the redirect URL</li>
                 <li>Paste it below and click "Get Refresh Token"</li>
                 <li>Copy the refresh token and update your GitHub secrets</li>
+                <li>Prefer <code>scripts/wahoo-auth.sh</code> if this page hits a CORS error</li>
             </ol>
         </div>
 
@@ -132,7 +133,7 @@
                 return;
             }
             
-            const authUrl = `https://api.wahooligan.com/oauth/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&scope=workouts:read`;
+            const authUrl = `https://api.wahooligan.com/oauth/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent('user_read workouts_read')}`;
             
             showResult('authUrlResult', `
                 <h4>Authorization URL Generated!</h4>
