@@ -1050,23 +1050,34 @@ Awarded by the Unviersity of Maryland, A. James Clark School of Engineering for 
             if (summary.ascent_accum && parseFloat(summary.ascent_accum) > 0) {
                 details.push(`${(parseFloat(summary.ascent_accum) * 3.28084).toFixed(0)} ft gain`);
             }
-            return { title, timestamp, details };
+            return { title, timestamp, location: getWorkoutLocation(workout), details };
         }
 
         const minutes = parseFloat(workout.minutes || 0);
         return {
             title: customName || type,
             timestamp,
+            location: getWorkoutLocation(workout),
             details: minutes ? [formatDuration(minutes * 60)] : []
         };
     }
 
+    function getWorkoutLocation(workout) {
+        const tagged = (workout.location || (workout.workout_summary && workout.workout_summary.location) || '').trim();
+        if (tagged) return tagged;
+        const timeZone = workout.workout_summary && workout.workout_summary.time_zone;
+        if (timeZone === 'Africa/Cairo') return 'Cairo, Egypt';
+        if (timeZone === 'America/Los_Angeles') return 'Los Angeles, CA';
+        return '';
+    }
+
     function workoutCard(workout) {
         const item = renderWorkout(workout);
+        const when = item.location ? `${item.timestamp} • ${item.location}` : item.timestamp;
         return `
             <div style="margin-bottom: 0.3rem; padding-bottom: 0.2rem; border-bottom: 1px solid #eee;">
                 <div style="font-weight: bold; font-size: 8pt; margin-bottom: 0px;">${item.title}</div>
-                <div style="color: #666; font-size: 7pt; margin-bottom: 0px;">${item.timestamp}</div>
+                <div style="color: #666; font-size: 7pt; margin-bottom: 0px;">${when}</div>
                 ${renderDetailRows(item.details)}
             </div>
         `;

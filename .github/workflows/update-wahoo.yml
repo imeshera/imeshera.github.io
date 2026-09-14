@@ -104,6 +104,10 @@ jobs:
             PAGE=$((PAGE + 1))
           done
 
+          if [ -f wahoo-activities.json ]; then
+            cp wahoo-activities.json wahoo-activities.prev.json
+          fi
+
           jq -s '{
             workouts: (map(.workouts) | add),
             total: .[0].total,
@@ -113,6 +117,10 @@ jobs:
             sort: .[0].sort
           }' ${PAGE_FILES} > wahoo-activities.json
           rm -f wahoo-activities-page-*.json
+
+          python3 -m pip install --quiet fitparse
+          ACCESS_TOKEN="$ACCESS_TOKEN" python3 scripts/enrich-wahoo-locations.py wahoo-activities.prev.json
+          rm -f wahoo-activities.prev.json
 
           if [ -n "$NEW_REFRESH_TOKEN" ]; then
             printf '%s' "$NEW_REFRESH_TOKEN" | encrypt_token > wahoo-token.enc
