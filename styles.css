@@ -3185,6 +3185,18 @@ body.dark-mode hr {
     display: none !important;
 }
 
+.chaos-logo-dark {
+    display: none;
+}
+
+body.dark-mode .chaos-logo-light {
+    display: none;
+}
+
+body.dark-mode .chaos-logo-dark {
+    display: inline;
+}
+
 
 
 /* Add additional styles for dark mode as needed */
