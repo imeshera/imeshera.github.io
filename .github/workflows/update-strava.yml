@@ -2,47 +2,119 @@ name: Update Strava Activities
 
 on:
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '47 13 * * *' # once daily; offset from the Wahoo job
   workflow_dispatch:
+
+concurrency:
+  group: strava-update
+  cancel-in-progress: false
 
 jobs:
   update-strava:
     runs-on: ubuntu-latest
-    
+
     permissions:
       contents: write
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
+
       - name: Fetch Strava Activities
         env:
           STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
           STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
           STRAVA_REFRESH_TOKEN: ${{ secrets.STRAVA_REFRESH_TOKEN }}
         run: |
-          TOKEN_RESPONSE=$(curl -s -X POST https://www.strava.com/oauth/token \
-            -d client_id=$STRAVA_CLIENT_ID \
-            -d client_secret=$STRAVA_CLIENT_SECRET \
-            -d refresh_token=$STRAVA_REFRESH_TOKEN \
-            -d grant_type=refresh_token)
-          
-          ACCESS_TOKEN=$(echo $TOKEN_RESPONSE | jq -r '.access_token')
-          
-          curl -s -X GET "https://www.strava.com/api/v3/athlete/activities?per_page=5" \
-            -H "Authorization: Bearer $ACCESS_TOKEN" > strava-activities.json
-          
-          cat strava-activities.json | jq '.' > strava-activities-temp.json
-          mv strava-activities-temp.json strava-activities.json
-      
+          set -euo pipefail
+
+          decrypt_token() {
+            openssl enc -d -aes-256-cbc -pbkdf2 -iter 100000 -salt \
+              -pass env:STRAVA_CLIENT_SECRET -base64 -A
+          }
+
+          encrypt_token() {
+            openssl enc -aes-256-cbc -pbkdf2 -iter 100000 -salt \
+              -pass env:STRAVA_CLIENT_SECRET -base64 -A
+          }
+
+          REFRESH_TOKEN=""
+          if [ -f strava-token.enc ]; then
+            if REFRESH_TOKEN=$(tr -d '\n\r ' < strava-token.enc | decrypt_token); then
+              echo "Using encrypted refresh token from the repo"
+            else
+              echo "Could not decrypt strava-token.enc; falling back to GitHub secret"
+              REFRESH_TOKEN=""
+            fi
+          fi
+
+          if [ -z "${REFRESH_TOKEN}" ]; then
+            if [ -n "${STRAVA_REFRESH_TOKEN:-}" ]; then
+              REFRESH_TOKEN="$STRAVA_REFRESH_TOKEN"
+              echo "Using refresh token from GitHub secret"
+            else
+              echo "No Strava refresh token available."
+              echo "Set the STRAVA_REFRESH_TOKEN repository secret, then re-run this workflow."
+              exit 1
+            fi
+          fi
+
+          TOKEN_RESPONSE=$(curl -sS -X POST https://www.strava.com/oauth/token \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            --data-urlencode "client_id=${STRAVA_CLIENT_ID}" \
+            --data-urlencode "client_secret=${STRAVA_CLIENT_SECRET}" \
+            --data-urlencode "refresh_token=${REFRESH_TOKEN}" \
+            --data-urlencode "grant_type=refresh_token")
+
+          ACCESS_TOKEN=$(echo "$TOKEN_RESPONSE" | jq -r '.access_token // empty')
+          NEW_REFRESH_TOKEN=$(echo "$TOKEN_RESPONSE" | jq -r '.refresh_token // empty')
+
+          if [ -z "$ACCESS_TOKEN" ]; then
+            echo "Failed to refresh the Strava access token."
+            echo "$TOKEN_RESPONSE" | jq -c '{message, errors}' 2>/dev/null || echo "$TOKEN_RESPONSE"
+            echo ""
+            echo "Strava refresh tokens rotate. Re-authorize, then update STRAVA_REFRESH_TOKEN"
+            echo "and delete strava-token.enc."
+            exit 1
+          fi
+
+          HTTP_CODE=$(curl -sS -o strava-activities-raw.json -w "%{http_code}" \
+            -H "Authorization: Bearer ${ACCESS_TOKEN}" \
+            -H "Accept: application/json" \
+            "https://www.strava.com/api/v3/athlete/activities?per_page=30")
+
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "Activities request failed with HTTP ${HTTP_CODE}"
+            cat strava-activities-raw.json
+            rm -f strava-activities-raw.json
+            exit 1
+          fi
+
+          jq -e 'type == "array"' strava-activities-raw.json >/dev/null
+          jq '.' strava-activities-raw.json > strava-activities.json
+          rm -f strava-activities-raw.json
+
+          if [ -n "$NEW_REFRESH_TOKEN" ]; then
+            printf '%s' "$NEW_REFRESH_TOKEN" | encrypt_token > strava-token.enc
+            echo "Saved encrypted refresh token"
+          fi
+
       - name: Commit and push if changed
         run: |
+          set -euo pipefail
           git config user.name 'Strava Bot'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git pull --rebase origin main
+
           git add strava-activities.json
-          if ! git diff --quiet HEAD strava-activities.json 2>/dev/null; then
-            git commit -m "Update Strava activities [skip ci]"
-            git push origin main
+          if [ -f strava-token.enc ]; then
+            git add strava-token.enc
           fi
+
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git pull --rebase --autostash origin main
+          git commit -m "Update Strava activities [skip ci]"
+          git push origin main

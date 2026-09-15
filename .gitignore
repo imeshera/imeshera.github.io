@@ -1,3 +1,5 @@
 wahoo-token.txt
 .wahoo-refresh-token
+.strava-refresh-token
+.strava-token-response.json
 .env
