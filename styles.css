@@ -3178,11 +3178,10 @@ body.dark-mode a {
     color: #0077CC !important;
 }
 
-/* Hide horizontal lines in dark mode */
 body.dark-mode hr {
-    border-top: none !important;
-    border-bottom: none !important;
-    display: none !important;
+    border-color: #404040;
+    color: #404040;
+    background-color: #404040;
 }
 
 .chaos-logo-dark {
